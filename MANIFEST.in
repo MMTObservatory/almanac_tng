@@ -1,0 +1,13 @@
+include README.md
+include LICENSE.rst
+include setup.cfg
+include pyproject.toml
+
+recursive-include mmt_almanac *.pyx *.pxd *.c
+recursive-include docs *
+
+prune build
+prune docs/_build
+prune docs/api
+
+global-exclude *.pyc *.o
