@@ -3,7 +3,7 @@ include LICENSE.rst
 include setup.cfg
 include pyproject.toml
 
-recursive-include mmt_almanac *.pyx *.pxd *.c
+recursive-include mmt_almanac *.pyx *.pxd *.c *.txt
 recursive-include docs *
 
 prune build
