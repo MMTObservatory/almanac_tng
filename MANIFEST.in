@@ -2,7 +2,7 @@ include README.md
 include LICENSE.rst
 include setup.cfg
 include pyproject.toml
-include mmt_almanac/tests/coveragerc
+include .coveragerc
 
 recursive-include mmt_almanac *.pyx *.pxd *.c *.txt
 recursive-include docs *

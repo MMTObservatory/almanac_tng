@@ -1,16 +1,9 @@
 [run]
 source = mmt_almanac
+branch = True
 omit =
-   mmt_almanac/_astropy_init*
-   mmt_almanac/conftest*
-   mmt_almanac/cython_version*
-   mmt_almanac/setup_package*
-   mmt_almanac/*/setup_package*
-   mmt_almanac/*/*/setup_package*
+   .tox/*
    mmt_almanac/tests/*
-   mmt_almanac/*/tests/*
-   mmt_almanac/*/*/tests/*
-   mmt_almanac/version*
 
 [report]
 exclude_lines =
