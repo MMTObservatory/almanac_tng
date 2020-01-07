@@ -141,7 +141,7 @@ def yearly_almanac(year=2020, newmoons=None):
     months = [datetime.date(year, m, 1).strftime("%b") for m in range(1, 13)]
 
     if newmoons is None:
-        newmoons = calc_newmoons(f"{year}-6-15", nmonths=8)  # this is a little hacky, but whatever.
+        newmoons = calc_newmoons(Time(f"{year}-6-15"), nmonths=8)  # this is a little hacky, but whatever.
 
     alm_dict = {}
     for m in range(0, 12):
