@@ -108,6 +108,8 @@ def nightly_almanac(time=Time.now(), newmoons=None):
     newmoon_diff = midnight.to_datetime(timezone=pytz.utc) - newmoons.utc_datetime()
     nearest = abs(newmoon_diff).argmin()
     alm_dict['Moon Age'] = newmoon_diff[nearest].total_seconds()/86400
+    night_length = alm_dict['Morn 12 Deg'].to_datetime() - alm_dict['Eve 12 Deg'].to_datetime()
+    alm_dict['Night Length'] = night_length.total_seconds()/3600
 
     return alm_dict
 
