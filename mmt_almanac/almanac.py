@@ -73,7 +73,8 @@ def nightly_almanac(time=Time.now(), newmoons=None):
     if newmoons is None:
         newmoons = calc_newmoons(time, nmonths=2)
 
-    alm_dict['Date'] = local_t.strftime("%b %d")
+    alm_dict['UT'] = time
+    alm_dict['MST'] = local_t
     alm_dict['Sunset'] = MMT.sun_set_time(night_start, which='next', horizon=USNO_HORIZON)
     for k, h in HORIZONS.items():
         alm_dict["Eve " + k] = MMT.sun_set_time(night_start, which='next', horizon=h)
@@ -112,6 +113,8 @@ def ascii_night(almanac=nightly_almanac()):
     Takes a dict() as produced by nightly_almanac() and prints out string in a format that matches the MMTO's
     printed almanac.
     """
+    date_str = almanac['MST'].strftime("%b %d")
+
     tset_str = nearest_minute(almanac['Sunset'].to_datetime(timezone=TZ)).strftime(HM_STR)
 
     eve_str = ""
@@ -151,7 +154,7 @@ def ascii_night(almanac=nightly_almanac()):
     age_str = "{:5.1f}".format(almanac['Moon Age'])
 
     outstr = "{:6s}    {:5s}   {:24s}{:5s}     {:8s}    {:5s}   {:24s}{:5s}     {:5s}   {:5s}   {:3s}     {:5s}".format(
-        almanac['Date'],
+        date_str,
         tset_str,
         eve_str,
         ra3_west_str,
