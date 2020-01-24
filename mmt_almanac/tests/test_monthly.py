@@ -5,4 +5,4 @@ from ..almanac import monthly_almanac
 
 def test_monthly():
     a = monthly_almanac(time="2019-01-01")
-    assert(len(list(a.keys())) == 31)
+    assert(len(a) == 31)

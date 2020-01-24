@@ -3,6 +3,9 @@
 
 import pkg_resources
 import datetime
+
+import astropy.units as u
+
 from .almanac import nightly_almanac, TZ, HORIZONS
 
 
@@ -38,7 +41,7 @@ def ascii_night(almanac=nightly_almanac()):
 
     ra3_west_str = "{:02d} {:02d}".format(int(almanac['RA 3 Hr West'].hms.h), int(almanac['RA 3 Hr West'].hms.m))
 
-    midnight_st = almanac['Midnight ST'].to_string(sep=' ', precision=0)
+    midnight_st = almanac['Midnight ST'].to_string(unit=u.hourangle, sep=' ', precision=0)
 
     ra3_east_str = "{:02d} {:02d}".format(int(almanac['RA 3 Hr East'].hms.h), int(almanac['RA 3 Hr East'].hms.m))
 

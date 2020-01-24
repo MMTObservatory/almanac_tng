@@ -4,6 +4,9 @@
 import datetime
 import pytz
 
+from functools import partial
+import multiprocessing as mp
+
 import pandas as pd
 
 import astroplan
@@ -110,14 +113,13 @@ def monthly_almanac(time=Time.now(), newmoons=None):
     # if set of new moon dates not provided, calculate the set that fully brackets the given time.
     if newmoons is None:
         newmoons = calc_newmoons(time, nmonths=3)
-    alm_dict = {}
-    date_range = pd.date_range(start=f"{m}/1/{y}", periods=ndays)
-    for d in date_range:
-        night_alm = nightly_almanac(time=d, newmoons=newmoons)
-        key = night_alm['MST'].strftime("%b %d")
-        alm_dict[key] = night_alm
 
-    return alm_dict
+    date_range = pd.date_range(start=f"{m}/1/{y}", periods=ndays)
+    ncores = mp.cpu_count()
+    with mp.Pool(processes=ncores) as pool:
+        alms = pool.map(partial(nightly_almanac, newmoons=newmoons), date_range)
+
+    return alms
 
 
 def yearly_almanac(year=2020, newmoons=None):
