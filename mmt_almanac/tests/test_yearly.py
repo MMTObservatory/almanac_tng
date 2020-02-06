@@ -3,6 +3,7 @@
 
 from ..almanac import yearly_almanac
 
+
 def test_yearly():
     a = yearly_almanac(year=2020)
     assert(len(list(a.keys())) == 12)

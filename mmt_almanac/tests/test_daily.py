@@ -3,6 +3,7 @@
 
 from ..almanac import nightly_almanac
 
+
 def test_nightly():
     a = nightly_almanac(time="2019-01-01")
     assert(len(list(a.keys())) > 1)
