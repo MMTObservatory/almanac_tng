@@ -25,6 +25,9 @@ wheels/
 *.egg
 MANIFEST
 pip-wheel-metadata/**
+*/version.py
+*/cython_version.py
+.python-version
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
