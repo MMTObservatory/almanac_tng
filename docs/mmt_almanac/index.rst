@@ -1,6 +1,6 @@
-********************
+**************************
 MMTO Almanac Documentation
-********************
+**************************
 
 This is the documentation for the MMTO's almanac software.
 
