@@ -116,8 +116,12 @@ def monthly_almanac(time=Time.now(), newmoons=None):
 
     date_range = pd.date_range(start=f"{m}/1/{y}", periods=ndays)
     ncores = mp.cpu_count()
-    with mp.Pool(processes=ncores) as pool:
+    pool = mp.Pool(processes=ncores)
+    try:
         alms = pool.map(partial(nightly_almanac, newmoons=newmoons), date_range)
+    finally:
+        pool.close()
+        pool.join()
 
     return alms
 
