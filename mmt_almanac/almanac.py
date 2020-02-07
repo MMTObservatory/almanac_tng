@@ -49,7 +49,7 @@ def calc_newmoons(time=Time.now(), nmonths=2):
     return newmoons
 
 
-def nightly_almanac(time=Time.now(), newmoons=None):
+def nightly_almanac(time=Time.now(), newmoons=None, n_grid_points=150):
     """
     Generate MMTO almanac information for a given time. The given time or date is assumed to be in MST.
     """
@@ -66,9 +66,9 @@ def nightly_almanac(time=Time.now(), newmoons=None):
 
     alm_dict['UT'] = time
     alm_dict['MST'] = local_t
-    alm_dict['Sunset'] = MMT.sun_set_time(night_start, which='next', horizon=USNO_HORIZON)
+    alm_dict['Sunset'] = MMT.sun_set_time(night_start, which='next', horizon=USNO_HORIZON, n_grid_points=n_grid_points)
     for k, h in HORIZONS.items():
-        alm_dict["Eve " + k] = MMT.sun_set_time(night_start, which='next', horizon=h)
+        alm_dict["Eve " + k] = MMT.sun_set_time(night_start, which='next', horizon=h, n_grid_points=n_grid_points)
 
     alm_dict['RA 3 Hr West'] = alm_dict['Eve 18 Deg'].sidereal_time(kind='apparent', longitude=MMT.location.lon)
     alm_dict['RA 3 Hr West'] = alm_dict['RA 3 Hr West'] - 3 * u.hourangle
@@ -78,16 +78,16 @@ def nightly_almanac(time=Time.now(), newmoons=None):
     midnight = Time(f"{str(local_t.date())} 07:00:00") + 1 * u.day
     alm_dict['Midnight ST'] = midnight.sidereal_time(kind='apparent', longitude=MMT.location.lon)
 
-    alm_dict['Sunrise'] = MMT.sun_rise_time(night_start, which='next', horizon=USNO_HORIZON)
+    alm_dict['Sunrise'] = MMT.sun_rise_time(night_start, which='next', horizon=USNO_HORIZON, n_grid_points=n_grid_points)
     for k, h in HORIZONS.items():
-        alm_dict["Morn " + k] = MMT.sun_rise_time(night_start, which='next', horizon=h)
+        alm_dict["Morn " + k] = MMT.sun_rise_time(night_start, which='next', horizon=h, n_grid_points=n_grid_points)
 
     alm_dict['RA 3 Hr East'] = alm_dict['Morn 18 Deg'].sidereal_time(kind='apparent', longitude=MMT.location.lon)
     alm_dict['RA 3 Hr East'] = alm_dict['RA 3 Hr East'] + 3 * u.hourangle
     alm_dict['RA 3 Hr East'] = alm_dict['RA 3 Hr East'].wrap_at(24 * u.hourangle)
 
-    alm_dict['Moon Rise'] = MMT.moon_rise_time(night_start, which='next', horizon=USNO_HORIZON)
-    alm_dict['Moon Set'] = MMT.moon_set_time(night_start, which='next', horizon=USNO_HORIZON)
+    alm_dict['Moon Rise'] = MMT.moon_rise_time(night_start, which='next', horizon=USNO_HORIZON, n_grid_points=n_grid_points)
+    alm_dict['Moon Set'] = MMT.moon_set_time(night_start, which='next', horizon=USNO_HORIZON, n_grid_points=n_grid_points)
 
     alm_dict['Moon Illumination'] = MMT.moon_illumination(midnight)
 
@@ -100,7 +100,7 @@ def nightly_almanac(time=Time.now(), newmoons=None):
     return alm_dict
 
 
-def monthly_almanac(time=Time.now(), newmoons=None):
+def monthly_almanac(time=Time.now(), newmoons=None, n_grid_points=150):
     """
     Generate MMTO almanac information for a given month. By default do the current month.
     """
@@ -118,7 +118,7 @@ def monthly_almanac(time=Time.now(), newmoons=None):
     ncores = mp.cpu_count()
     pool = mp.Pool(processes=ncores)
     try:
-        alms = pool.map(partial(nightly_almanac, newmoons=newmoons), date_range)
+        alms = pool.map(partial(nightly_almanac, newmoons=newmoons, n_grid_points=n_grid_points), date_range)
     finally:
         pool.close()
         pool.join()
@@ -126,7 +126,7 @@ def monthly_almanac(time=Time.now(), newmoons=None):
     return alms
 
 
-def yearly_almanac(year=2020, newmoons=None):
+def yearly_almanac(year=2020, newmoons=None, n_grid_points=150):
     """
     Generate MMTO almanac information for a given year.
     """
@@ -137,6 +137,6 @@ def yearly_almanac(year=2020, newmoons=None):
 
     alm_dict = {}
     for m in range(0, 12):
-        alm_dict[months[m]] = monthly_almanac(time=f"{year}-{m+1}-15", newmoons=newmoons)
+        alm_dict[months[m]] = monthly_almanac(time=f"{year}-{m+1}-15", newmoons=newmoons, n_grid_points=n_grid_points)
 
     return alm_dict
