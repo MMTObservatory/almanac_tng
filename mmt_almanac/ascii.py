@@ -3,6 +3,7 @@
 
 import pkg_resources
 import datetime
+import argparse
 
 from astropy.time import Time
 import astropy.units as u
@@ -134,3 +135,34 @@ def ascii_year(year=2021):
         outstr += "\f"
 
     return outstr
+
+
+def yearly_almanac():
+    """
+    Entry point for generating a text file for the MMTO almanac from the command-line
+    """
+    parser = argparse.ArgumentParser(description='Script for generating text version of MMTO almanac')
+
+    parser.add_argument(
+        '-o',
+        '--outfile',
+        help="Filename to write almanac to",
+        default='almanac.txt'
+    )
+
+    parser.add_argument(
+        '-y',
+        '--year',
+        help="Almanac year",
+        type=int,
+        default=2021
+    )
+
+    args = parser.parse_args()
+
+    alm = ascii_year(year=args.year)
+
+    with open(args.outfile, 'w') as fp:
+        fp.write(alm)
+
+    return
