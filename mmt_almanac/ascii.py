@@ -109,7 +109,7 @@ def ascii_night(almanac=nightly_almanac()):
 
 def ascii_month(month=1, year=2021):
     """
-    Generate a month of ascii almanac output following the traditional MMT almanac format
+    Generate a month of ascii almanac output following the traditional MMTO almanac format
     """
     outstr = night_header(year=year) + "\n"
 
@@ -118,5 +118,19 @@ def ascii_month(month=1, year=2021):
     alines = map(ascii_night, alms)
 
     outstr += "".join(alines)
+
+    return outstr
+
+
+def ascii_year(year=2021):
+    """
+    Generate the yearly MMTO almanac in the traditional format
+    """
+    outstr = ""
+    for m in range(1, 13):
+        outstr += page_header(year=year)
+        outstr += "\n\n"
+        outstr += ascii_month(month=m, year=year)
+        outstr += "\f"
 
     return outstr
