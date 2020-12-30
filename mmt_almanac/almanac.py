@@ -114,7 +114,7 @@ def monthly_almanac(time=Time.now(), newmoons=None, n_grid_points=150):
     if newmoons is None:
         newmoons = calc_newmoons(time, nmonths=3)
 
-    date_range = pd.date_range(start=f"{m}/1/{y}", periods=ndays)
+    date_range = pd.date_range(start=f"{m}/2/{y}", periods=ndays)
     ncores = mp.cpu_count()
     pool = mp.Pool(processes=ncores)
     try:

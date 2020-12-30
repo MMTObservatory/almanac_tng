@@ -4,16 +4,10 @@
 import pkg_resources
 import datetime
 
-import multiprocessing
-from multiprocessing import Pool
-
-import pandas as pd
-
 from astropy.time import Time
 import astropy.units as u
-from skyfield import almanac
 
-from .almanac import nightly_almanac, TZ, HORIZONS
+from .almanac import nightly_almanac, monthly_almanac, TZ, HORIZONS
 
 
 HM_STR = "%-H %M"
@@ -50,13 +44,11 @@ def page_header(year=2021, create_time=datetime.datetime.now()):
     return hdr
 
 
-def ascii_night(create_time=datetime.datetime.now()):
+def ascii_night(almanac=nightly_almanac()):
     """
     Takes a dict() as produced by nightly_almanac() and prints out string in a format that matches the MMTO's
     printed almanac.
     """
-    create_time = Time(create_time)
-    almanac = nightly_almanac(create_time)
     date_str = almanac['MST'].strftime("%b %d")
 
     tset_str = nearest_minute(almanac['Sunset'].to_datetime(timezone=TZ)).strftime(HM_STR)
@@ -119,12 +111,11 @@ def ascii_month(month=1, year=2021):
     """
     Generate a month of ascii almanac output following the traditional MMT almanac format
     """
-    r = list(pd.date_range(start=f"{month}/1/{year}", end=f"{month+1}/1/{year}")[1:])
-
     outstr = night_header(year=year) + "\n"
 
-    with Pool(processes=8) as pool:
-        alines = pool.map(ascii_night, r)
+    alms = monthly_almanac(time=Time(f"{year}-{month}-2"))
+
+    alines = map(ascii_night, alms)
 
     outstr += "".join(alines)
 
