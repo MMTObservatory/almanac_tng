@@ -25,6 +25,24 @@ def nearest_minute(dt):
     return (dt + datetime.timedelta(seconds=30)).replace(second=0, microsecond=0)
 
 
+def night_header(year=2021):
+    """
+    Return header string for a night or set of nights
+    """
+    hdr = TBL_HDR.format(year)
+    return hdr
+
+
+def page_header(year=2021, create_time=datetime.datetime.now()):
+    """
+    Return header string for a page of almanac output
+    """
+    date = create_time.strftime("%B %d, %Y")
+    with open(PAGE_HDR_FILE) as fp:
+        hdr = fp.read().format(year, date)
+    return hdr
+
+
 def ascii_night(almanac=nightly_almanac()):
     """
     Takes a dict() as produced by nightly_almanac() and prints out string in a format that matches the MMTO's
