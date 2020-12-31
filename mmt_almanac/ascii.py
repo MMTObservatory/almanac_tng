@@ -3,10 +3,12 @@
 
 import pkg_resources
 import datetime
+import argparse
 
+from astropy.time import Time
 import astropy.units as u
 
-from .almanac import nightly_almanac, TZ, HORIZONS
+from .almanac import nightly_almanac, monthly_almanac, TZ, HORIZONS
 
 
 HM_STR = "%-H %M"
@@ -23,6 +25,24 @@ def nearest_minute(dt):
     USNO predictions round to nearest minute so we use this hack to follow that.
     """
     return (dt + datetime.timedelta(seconds=30)).replace(second=0, microsecond=0)
+
+
+def night_header(year=2021):
+    """
+    Return header string for a night or set of nights
+    """
+    hdr = TBL_HDR.format(year)
+    return hdr
+
+
+def page_header(year=2021, create_time=datetime.datetime.now()):
+    """
+    Return header string for a page of almanac output
+    """
+    date = create_time.strftime("%B %d, %Y")
+    with open(PAGE_HDR_FILE) as fp:
+        hdr = fp.read().format(year, date)
+    return hdr
 
 
 def ascii_night(almanac=nightly_almanac()):
@@ -70,7 +90,7 @@ def ascii_night(almanac=nightly_almanac()):
 
     age_str = "{:5.1f}".format(almanac['Moon Age'])
 
-    outstr = "{:6s}    {:5s}   {:24s}{:5s}     {:8s}    {:5s}   {:24s}{:5s}     {:5s}   {:5s}   {:3s}     {:5s}".format(
+    outstr = "{:6s}    {:5s}   {:24s}{:5s}     {:8s}    {:5s}   {:24s}{:5s}     {:5s}   {:5s}   {:3s}     {:5s}\n".format(
         date_str,
         tset_str,
         eve_str,
@@ -86,3 +106,63 @@ def ascii_night(almanac=nightly_almanac()):
     )
 
     return outstr
+
+
+def ascii_month(month=1, year=2021):
+    """
+    Generate a month of ascii almanac output following the traditional MMTO almanac format
+    """
+    outstr = night_header(year=year) + "\n"
+
+    alms = monthly_almanac(time=Time(f"{year}-{month}-2"))
+
+    alines = map(ascii_night, alms)
+
+    outstr += "".join(alines)
+
+    return outstr
+
+
+def ascii_year(year=2021):
+    """
+    Generate the yearly MMTO almanac in the traditional format
+    """
+    outstr = ""
+    for m in range(1, 13):
+        outstr += page_header(year=year)
+        outstr += "\n\n"
+        outstr += ascii_month(month=m, year=year)
+        outstr += "\f"
+
+    return outstr
+
+
+def yearly_almanac():
+    """
+    Entry point for generating a text file for the MMTO almanac from the command-line
+    """
+    parser = argparse.ArgumentParser(description='Script for generating text version of MMTO almanac')
+
+    parser.add_argument(
+        '-o',
+        '--outfile',
+        help="Filename to write almanac to",
+        default='almanac.txt'
+    )
+
+    parser.add_argument(
+        '-y',
+        '--year',
+        help="Almanac year",
+        type=int,
+        default=2021
+    )
+
+    args = parser.parse_args()
+
+    alm = ascii_year(year=args.year)
+
+    with open(args.outfile, 'w') as fp:
+        fp.write(alm)
+
+    return
