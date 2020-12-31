@@ -21,9 +21,9 @@ jobs:
         python-ver: [8, 9]
         tox-env: [cov, alldeps, astropydev, numpydev, astroplandev]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up python 3.${{ matrix.python-ver }} with tox environment ${{ matrix.tox-env }} on ${{ matrix.os }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.${{ matrix.python-ver }}
     - name: Install base dependencies
@@ -45,9 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python to build docs with sphinx
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.9
     - name: Install base dependencies
@@ -59,13 +59,42 @@ jobs:
         tox -e build_docs
         tox -e linkcheck
 
+  make_almanac:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python to run almanac generation script
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install base dependencies
+      run: |
+        python -m pip install --upgrade pip
+        sudo apt update -q -y
+        sudo apt install -q -y enscript ghostscript
+    - name: Install almanac package
+      run: |
+        python -m pip install -e .[all]
+    - name: Run yearly_almanac and convert to PDF
+        yearly_almanac -o almanac.txt -y 2021
+        enscript -B -r -f Courier9 -p almanac.ps almanac.txt
+        gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
+          -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
+    - name: Upload generated almanac PDF
+      uses: actions/upload-artifact@v2
+      with:
+        name: latest-almanac
+        path: almanac.pdf
+
   codestyle:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Python codestyle check
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.9
     - name: Install base dependencies
