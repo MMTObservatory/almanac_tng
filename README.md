@@ -5,4 +5,4 @@ MMT Almanac: The Next Generation - Tools to generate the MMT almanac and telesco
 
 [![Python Test Status](https://github.com/MMTObservatory/almanac_tng/workflows/Python%20tests%20with%20tox/badge.svg)](https://github.com/MMTObservatory/almanac_tng/actions)
 
-[![Coverage Status](https://codecov.io/gh/MMTObservatory/almanac_tng/branch/master/graph/badge.svg)](https://codecov.io/gh/MMTObservatory/almanac_tng)
+[![Coverage Status](https://codecov.io/gh/MMTObservatory/almanac_tng/branch/main/graph/badge.svg)](https://codecov.io/gh/MMTObservatory/almanac_tng)
