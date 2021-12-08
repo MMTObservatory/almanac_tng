@@ -27,7 +27,7 @@ jobs:
         pip install -e .[all]
     - name: Run yearly_almanac and convert to PDF
       run: |
-        yearly_almanac -o almanac.txt -y 2021
+        yearly_almanac -o almanac.txt -y 2022
         enscript -B -r -f Courier9 -p almanac.ps almanac.txt
         gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
           -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
