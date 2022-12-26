@@ -8,4 +8,4 @@ NGRID = 12
 
 def test_monthly():
     a = monthly_almanac(time="2019-01-01", n_grid_points=NGRID)
-    assert(len(a) == 31)
+    assert len(a) == 31

@@ -8,4 +8,4 @@ NGRID = 12
 
 def test_nightly():
     a = nightly_almanac(time="2019-01-01", n_grid_points=NGRID)
-    assert(len(list(a.keys())) > 1)
+    assert len(list(a.keys())) > 1

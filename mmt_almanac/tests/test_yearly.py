@@ -8,4 +8,4 @@ NGRID = 5
 
 def test_yearly():
     a = yearly_almanac(year=2020, n_grid_points=NGRID)
-    assert(len(list(a.keys())) == 12)
+    assert len(list(a.keys())) == 12

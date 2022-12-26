@@ -8,6 +8,6 @@ from ..json import json_night
 def test_json_night():
     a = nightly_almanac(time="2019-01-01")
     s = json_night(almanac=a)
-    assert(len(s) > 1)
+    assert len(s) > 1
     s = json_night(almanac=a, pretty=True)
-    assert(len(s) > 1)
+    assert len(s) > 1

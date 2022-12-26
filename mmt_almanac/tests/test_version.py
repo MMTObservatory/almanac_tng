@@ -6,4 +6,4 @@ import mmt_almanac
 
 def test_version():
     ver = mmt_almanac.__version__
-    assert(len(ver) > 1)
+    assert len(ver) > 1
