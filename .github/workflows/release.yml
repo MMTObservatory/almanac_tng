@@ -11,6 +11,8 @@ jobs:
     name: Upload Released Almanac
     runs-on: ubuntu-latest
     steps:
+    - id: get_version
+      uses: battila7/get-version-action@v2
     - uses: actions/checkout@v3
     - name: Set up Python to run almanac generation script
       uses: actions/setup-python@v4
@@ -27,7 +29,7 @@ jobs:
         pip install -e .[all]
     - name: Run yearly_almanac and convert to PDF
       run: |
-        yearly_almanac -o almanac.txt -y 2023
+        yearly_almanac -o almanac.txt -y ${{ steps.get_version.outputs.major }}
         enscript -B -r -f Courier9 -p almanac.ps almanac.txt
         gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
           -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
