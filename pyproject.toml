@@ -1,7 +1,109 @@
+[project]
+name = "mmt_almanac"
+dynamic = ["version"]
+authors = [
+    { name = "T. E. Pickering", email = "tim@mmto.org"}
+]
+license = { file = "LICENSE.rst" }
+readme = "README.rst"
+description = "MMTO Almanac and almanac utilities"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "astropy",
+    "astroplan",
+    "skyfield",
+    "pandas",
+    "setuptools",
+]
+
+[project.optional-dependencies]
+all = [
+    "matplotlib",
+]
+docs = [
+    "sphinx",
+    "sphinx-astropy",
+]
+extra = [
+    "jupyter",
+]
+test = [
+    "tox",
+    "pytest",
+    "pytest-cov",
+    "pytest-astropy",
+    "coverage",
+    "codecov",
+]
+
+[project.urls]
+Homepage = "https://mmto.org/"
+Repository = "https://github.com/mmtobservatory/almanac_tng.git"
+Documentation = "https://almanac-tng.readthedocs.io/en/latest/"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools_scm]
+version_file = "mmt_almanac/version.py"
+
 [build-system]
-
-requires = ["setuptools",
-            "setuptools_scm",
-            "wheel"]
-
+requires = [
+    "setuptools",
+    "setuptools_scm",
+    "wheel"
+]
 build-backend = 'setuptools.build_meta'
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = [
+    "mmt_almanac",
+    "docs"
+]
+astropy_header = true
+doctest_plus = "enabled"
+text_file_format = "rst"
+addopts = [
+    "--doctest-rst",
+    "--color=yes",
+]
+xfail_strict = true
+filterwarnings = [
+    "error",
+    # Python 3.12 warning from dateutil imported by matplotlib
+    "ignore:.*utcfromtimestamp:DeprecationWarning",
+]
+
+[tool.coverage]
+    [tool.coverage.run]
+        omit = [
+            "mmt_almanac/_astropy_init*",
+            "mmt_almanac/conftest.py",
+            "mmt_almanac/tests/*",
+            "mmt_almanac/version*",
+            "*/mmt_almanac/_astropy_init*",
+            "*/mmt_almanac/conftest.py",
+            "*/mmt_almanac/tests/*",
+            "*/mmt_almanac/version*",
+        ]
+    [tool.coverage.report]
+        exclude_lines = [
+            # Have to re-enable the standard pragma
+            "pragma: no cover",
+            # Don't complain about packages we have installed
+            "except ImportError",
+            # Don't complain if tests don't hit defensive assertion code:
+            "raise AssertionError",
+            "raise NotImplementedError",
+            # Don't complain about script hooks
+            "'def main(.*):'",
+            # Ignore branches that don't pertain to this version of Python
+            "pragma: py{ignore_python_version}",
+            # Don't complain about IPython completion helper
+            "def _ipython_key_completions_",
+        ]
