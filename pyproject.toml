@@ -42,6 +42,10 @@ Homepage = "https://mmto.org/"
 Repository = "https://github.com/mmtobservatory/almanac_tng.git"
 Documentation = "https://almanac-tng.readthedocs.io/en/latest/"
 
+[project.scripts]
+update_iers_a = "mmt_almanac.update_iers_a:main"
+yearly_almanac = "mmt_almanac.ascii:yearly_almanac"
+
 [tool.setuptools]
 include-package-data = true
 
