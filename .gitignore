@@ -111,3 +111,5 @@ de421.bsp
 deltat.*
 .vscode/
 almanac.txt
+docs/api/*/*
+docs/api/*
