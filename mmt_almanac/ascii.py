@@ -17,7 +17,7 @@ TBL_HDR = "     {:4d}          Sun     Sun     Sun    RA 3H                RA 3H
 TBL_HDR += " Date    Sunset   6 Deg   12 Deg  18 Deg  West at  Sid Time    East at 18 Deg  12 Deg  6 Deg  Sunrise     rise    set    Illum     Age  \n"  # noqa
 TBL_HDR += "                  W Hrz   W Hrz   W Hrz   18 Deg   Midnight    18 Deg  E Hrz   E Hrz   E Hrz                               %       Days\n"  # noqa
 
-PAGE_HDR_FILE = importlib.resource_files(__name__, "header.txt")
+PAGE_HDR_FILE = importlib.resources.files(__name__) / "header.txt"
 
 
 def nearest_minute(dt):
