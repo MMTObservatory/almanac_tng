@@ -7,7 +7,7 @@ authors = [
 license = { file = "LICENSE.rst" }
 readme = "README.rst"
 description = "MMTO Almanac and almanac utilities"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "numpy",
     "astropy",
