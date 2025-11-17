@@ -84,7 +84,7 @@ jobs:
         gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
           -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
     - name: Upload generated almanac PDF
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: latest-almanac
         path: almanac.pdf
