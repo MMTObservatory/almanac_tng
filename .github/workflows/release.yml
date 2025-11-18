@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - id: get_version
-      uses: battila7/get-version-action@v2
+      uses: CarterChen247/version-retriever@v1
     - uses: actions/checkout@v3
     - name: Set up Python to run almanac generation script
       uses: actions/setup-python@v4
