@@ -28,7 +28,7 @@ def pytest_configure(config):
         PYTEST_HEADER_MODULES['matplotlib'] = 'matplotlib'
         PYTEST_HEADER_MODULES['skyfield'] = 'skyfield'
 
-        from . import __version__
+        from mmt_almanac import __version__
         packagename = os.path.basename(os.path.dirname(__file__))
         TESTED_VERSIONS[packagename] = __version__
 
