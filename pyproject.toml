@@ -7,7 +7,7 @@ authors = [
 license = { file = "LICENSE.rst" }
 readme = "README.rst"
 description = "MMTO Almanac and almanac utilities"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "numpy",
     "astropy",
@@ -43,7 +43,6 @@ Repository = "https://github.com/mmtobservatory/almanac_tng.git"
 Documentation = "https://almanac-tng.readthedocs.io/en/latest/"
 
 [project.scripts]
-update_iers_a = "mmt_almanac.update_iers_a:main"
 yearly_almanac = "mmt_almanac.ascii:yearly_almanac"
 
 [tool.setuptools]

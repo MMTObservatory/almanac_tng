@@ -14,11 +14,11 @@ jobs:
 
   matrix_tests:
     runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-ver: [12]
+        python-ver: [13]
         tox-env: [cov, alldeps, astropydev, astroplandev]
     steps:
     - uses: actions/checkout@v3
@@ -43,13 +43,13 @@ jobs:
 
   doc_test:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python to build docs with sphinx
       uses: actions/setup-python@v4
       with:
-        python-version: "3.12"
+        python-version: "3.13"
     - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
@@ -61,13 +61,13 @@ jobs:
 
   make_almanac:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python to run almanac generation script
       uses: actions/setup-python@v4
       with:
-        python-version: "3.12"
+        python-version: "3.13"
     - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
@@ -84,20 +84,20 @@ jobs:
         gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
           -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
     - name: Upload generated almanac PDF
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: latest-almanac
         path: almanac.pdf
 
   codestyle:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Python codestyle check
       uses: actions/setup-python@v4
       with:
-        python-version: "3.12"
+        python-version: "3.13"
     - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
