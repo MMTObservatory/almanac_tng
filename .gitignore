@@ -113,3 +113,4 @@ deltat.*
 almanac.txt
 docs/api/*/*
 docs/api/*
+.DS_Store

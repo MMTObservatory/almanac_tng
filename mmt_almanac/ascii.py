@@ -1,9 +1,9 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
 # coding=utf-8
 
-import importlib
 import datetime
 import argparse
+import importlib.resources
 
 from astropy.time import Time
 import astropy.units as u
@@ -40,8 +40,7 @@ def page_header(year=2021, create_time=datetime.datetime.now()):
     Return header string for a page of almanac output
     """
     date = create_time.strftime("%B %d, %Y")
-    with open(PAGE_HDR_FILE) as fp:
-        hdr = fp.read().format(year, date)
+    hdr = PAGE_HDR_FILE.read_text().format(year, date)
     return hdr
 
 
