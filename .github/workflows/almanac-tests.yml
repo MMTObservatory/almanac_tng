@@ -14,7 +14,7 @@ jobs:
 
   matrix_tests:
     runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -43,7 +43,7 @@ jobs:
 
   doc_test:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python to build docs with sphinx
@@ -61,7 +61,7 @@ jobs:
 
   make_almanac:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python to run almanac generation script
@@ -84,14 +84,14 @@ jobs:
         gs -q -dSAFER -sBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=almanac.pdf \
           -dAutoRotatePages=/None -c "<</Orientation 3>> setpagedevice" -f almanac.ps
     - name: Upload generated almanac PDF
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: latest-almanac
         path: almanac.pdf
 
   codestyle:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     steps:
     - uses: actions/checkout@v3
     - name: Python codestyle check
