@@ -1,9 +1,9 @@
 # Licensed under a 3-clause BSD style license - see LICENSE.rst
 # coding=utf-8
 
-import pkg_resources
 import datetime
 import argparse
+import importlib.resources
 
 from astropy.time import Time
 import astropy.units as u
@@ -17,7 +17,7 @@ TBL_HDR = "     {:4d}          Sun     Sun     Sun    RA 3H                RA 3H
 TBL_HDR += " Date    Sunset   6 Deg   12 Deg  18 Deg  West at  Sid Time    East at 18 Deg  12 Deg  6 Deg  Sunrise     rise    set    Illum     Age  \n"  # noqa
 TBL_HDR += "                  W Hrz   W Hrz   W Hrz   18 Deg   Midnight    18 Deg  E Hrz   E Hrz   E Hrz                               %       Days\n"  # noqa
 
-PAGE_HDR_FILE = pkg_resources.resource_filename(__name__, "header.txt")
+PAGE_HDR_FILE = importlib.resources.files('mmt_almanac').joinpath('header.txt')
 
 
 def nearest_minute(dt):
@@ -40,8 +40,7 @@ def page_header(year=2021, create_time=datetime.datetime.now()):
     Return header string for a page of almanac output
     """
     date = create_time.strftime("%B %d, %Y")
-    with open(PAGE_HDR_FILE) as fp:
-        hdr = fp.read().format(year, date)
+    hdr = PAGE_HDR_FILE.read_text().format(year, date)
     return hdr
 
 

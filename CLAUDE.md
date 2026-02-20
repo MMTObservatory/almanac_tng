@@ -44,7 +44,6 @@ sphinx-build -W -b html docs/ docs/_build/html
 
 ### CLI Entry Points
 ```bash
-update_iers_a          # Download latest IERS-A Earth orientation data (needed before generating almanac)
 yearly_almanac -y 2025 -o almanac.txt   # Generate full year ASCII almanac
 ```
 
@@ -70,7 +69,6 @@ Computation hierarchy:
 ### Testing Notes
 - Tests use reduced `n_grid_points` (e.g., 5–12 instead of 150) to speed up calculations
 - `pytest-astropy` provides doctest support for RST files (`--doctest-rst` is set in `pyproject.toml`)
-- `update_iers_a` is run as part of the tox test commands to ensure current Earth orientation data
 
 ### Data Files
 - `de421.bsp` — JPL ephemeris file (gitignored, downloaded by skyfield at runtime)
